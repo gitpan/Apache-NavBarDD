@@ -1,8 +1,8 @@
-Apache/NavBarDD version 0.7
+Apache/NavBarDD version 0.71
 ==========================
 
 The NavBarDD package provides a dynamic navigation bar along the lines
-of NavBar module described in Lincoln Stein's and Doug MacEachern's
+of the NavBar module described in Lincoln Stein's and Doug MacEachern's
 "Writing Apache Modules with Perl and C". It goes one step further in
 allowing double-decker (two-level) navigation bars, where the selection
 in the first level (the *master* bar) determines the contents of the 

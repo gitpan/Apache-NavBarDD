@@ -7,7 +7,7 @@ use Apache::Constants qw(:common);
 use Apache::File ();
 use Apache::URI ();
 
-our $VERSION = '0.7';
+our $VERSION = '0.71';
 
 my %BARS = ();
 
@@ -488,7 +488,7 @@ directories for the master bar, and that level plus one for the vassal
 bar. The default level is 2, so that if the site's root is C</site>,
 everything in C</site/Master/>, where C<Master> is a valid path
 element, belongs to the master bar, except everything in
-C</site/Master/Vassal/>, where C<Vassal> is a valid path element,
+C</site/Master/Vassal/>, where C<Vassal> is a valid path element:
 that belongs to the vassal bar.
 
 This simple interpretation allows us to preselect an item in the vassal bar.
@@ -502,7 +502,7 @@ Consider the following segment of a configuration file:
 When selecting the FAQ tab, the user automatically gets C<C.html> as body,
 with C<C> selected in the vassal bar.
 
-If no vassals at all are found we get an one-level navigation bar.
+If no vassals at all are found we get a one-level navigation bar.
 
 =head1 CONSTRUCTOR
 
@@ -522,19 +522,19 @@ navigation bar uses the following style classes:
 
 =item * 
 
-C<td.master-active> Master bar, selected item.
+C<td.master-active> - Master bar, selected item.
 
 =item * 
 
-C<td.master-normal> Master bar, normal item.
+C<td.master-normal> - Master bar, normal item.
 
 =item *
 
-C<td.vassal-active> Vassal bar, selected item.
+C<td.vassal-active> - Vassal bar, selected item.
 
 =item *
 
-C<td.vassal-normal> Vassal bar, normal item.
+C<td.vassal-normal> - Vassal bar, normal item.
 
 =item *
 
@@ -712,7 +712,7 @@ Issue 12, Volume 3, Winter.
 
 Lincoln Stein <lstein@cshl.org>, Doug MacEahern <dougm@pobox.com> -
 for writing the original Apache::NavBar module. Lincoln gave permission
-distribute this on CPAN using the same name.
+to distribute this on CPAN.
 
 =head1 COPYRIGHT
 
