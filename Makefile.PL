@@ -9,5 +9,5 @@ WriteMakefile(
                             Apache::URI => '1.00'}, 
     ($] >= 5.005 ?    ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM => 'NavBarDD.pm', # retrieve abstract from module
-       AUTHOR     => 'Panos Louridas<louridas@acm.org>') : ()),
+       AUTHOR     => 'Panagiotis Louridas<panos.louridas@investment-bank.gr>') : ()),
 );

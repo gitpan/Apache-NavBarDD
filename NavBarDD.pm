@@ -7,7 +7,7 @@ use Apache::Constants qw(:common);
 use Apache::File ();
 use Apache::URI ();
 
-our $VERSION = '0.73';
+our $VERSION = '0.74';
 
 my %BARS = ();
 
@@ -223,8 +223,8 @@ sub depth {
 
 sub paint {
     my ($self, $r) = @_;
-    my $bar = read_configuration($r);
-    return $self->{made} = make_bar($r, $bar);
+    my $bar = $self->read_configuration($r);
+    return $self->{made} = $self->make_bar($r, $bar);
 }
 
 sub make_bar {
@@ -697,7 +697,7 @@ well as on top of the page.
 
 =head1 AUTHOR
 
-Panos Louridas <louridas@acm.org>.
+Panagiotis Louridas <panos.louridas@investment-bank.gr>.
 
 =head1 SEE ALSO
 
