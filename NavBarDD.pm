@@ -7,7 +7,7 @@ use Apache::Constants qw(:common);
 use Apache::File ();
 use Apache::URI ();
 
-our $VERSION = '0.72';
+our $VERSION = '0.73';
 
 my %BARS = ();
 

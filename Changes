@@ -9,3 +9,6 @@ Revision history for Perl extension Apache::NavBarDD.
 	
 0.72 Wed Nov  20 17:31:30 2002
 	! Updated documentation
+	
+0.73 Wed Nov  21 11:51:30 2002
+	! Changed module packaging; it now resides in its own directory as per CPAN instructions
