@@ -1,7 +1,7 @@
-Apache/NavBarDD version 0.74
+Apache/NavBarDD version 0.75
 ============================
 
-The NavBarDD package provides a dynamic navigation bar along the lines
+vBarDD package provides a dynamic navigation bar along the lines
 of the NavBar module described in Lincoln Stein's and Doug MacEachern's
 "Writing Apache Modules with Perl and C". It goes one step further in
 allowing double-decker (two-level) navigation bars, where the selection
@@ -40,6 +40,6 @@ This module requires these other modules and libraries:
 
 COPYRIGHT AND LICENCE
 
-Copyright (c) 2002 Panagiotis Louridas <panos.louridas@investment-bank.gr>. 
+Copyright (c) 2002-2003 Panagiotis Louridas <louridas@acm.org>. 
 All rights reserved. This program is free software; you can redistribute it 
 and/or modify it under the same terms as Perl itself.

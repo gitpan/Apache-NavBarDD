@@ -7,7 +7,7 @@ use Apache::Constants qw(:common);
 use Apache::File ();
 use Apache::URI ();
 
-our $VERSION = '0.74';
+our $VERSION = '0.75';
 
 my %BARS = ();
 
@@ -102,28 +102,33 @@ sub handler($$) {
     my $bar = $self->read_configuration($r) || return DECLINED;    
     $r->content_type eq 'text/html' || return DECLINED;
     my $fh = Apache::File->new($r->filename) || return DECLINED;
-    my $navbar = $self->make_bar($r, $bar);
-    $r->update_mtime($bar->modified);
-    $r->set_last_modified;
-    my $rc = $r->meets_conditions;
-    return $rc unless $rc == OK;
+
+    # the following handle caching; they stand in the way when
+    # making changes to the code, so use them wisely
+
+    # $r->update_mtime($bar->modified);
+    # $r->set_last_modified;
+    # my $rc = $r->meets_conditions;
+    # return $rc unless $rc == OK;
 
     $r->send_http_header;
     return OK if $r->header_only;
 
     my $before = $self->before;
-    $style = $self->style;
-    $master_table_atts = $self->master_table_atts;
-    $vassal_table_atts = $self->vassal_table_atts;
-    $master_padding = $self->master_padding;
-    $vassal_padding = $self->vassal_padding; 
+    my $style = $self->style;
+    my $master_table_atts = $self->master_table_atts;
+    my $vassal_table_atts = $self->vassal_table_atts;
+    my $master_padding = $self->master_padding;
+    my $vassal_padding = $self->vassal_padding; 
     my $after = $self->after;
+
+    my $navbar = $self->make_bar($r, $bar);
 
     local $/ = "";
     while (<$fh>) {
       s:(</HEAD>):$style$1:oi;
       s:(<BODY.*?>):$1$before$navbar$after:osi;
-      s:(</BODY.*?>):$navbar$1:osi if $bottom;
+      s:(</BODY.*?>):$navbar$1:osi if $self->bottom;
     } continue {
 	$r->print($_);
     }
@@ -233,12 +238,13 @@ sub make_bar {
     my $current_url = $r->uri;
     my ($m, $class); # $m is the vassal's master, $class holds format
     # start with the master
+    my $master_table_atts = $self->master_table_atts; # to interpolate 
     my @cells;
     for my $url (@{$bar->master_urls}) {
 	my $label = $bar->master_label($url);
 	# get the first $depth elements of the url
-	my $base = $self->{depth};
-	my $trunc = ($url =~ /^((?:\/[^\/]*){$base}\/).*$/oi, $1);
+	my $base = $self->depth;
+	my $trunc = ($url =~ /^((?:\/[^\/]*){$base}\/).*$/i, $1);
 	my $is_current = $current_url =~ /^$trunc/;
 	my $cell = $is_current ?
 	    ($m = $trunc, 
@@ -246,7 +252,7 @@ sub make_bar {
 	    : ($class = "master-normal",
 	    qq(<A HREF="$url" class="master">$label</A>));
 	push @cells,
-	qq(<TD class="$class">$cell</TD>\n), $master_padding;
+	qq(<TD class="$class">$cell</TD>\n), $self->master_padding;
     }
 
     # return if not a two-level bar
@@ -255,6 +261,7 @@ sub make_bar {
 
     # return if a two-level bar without children urls, e.g.,
     # when the master selection holds no vassals.
+    my $vassal_table_atts = $self->vassal_table_atts; # to interpolate
     return qq(\n<TABLE $master_table_atts><TR>@cells</TR></TABLE>
               <TABLE $vassal_table_atts>
 	      <TR><TD CLASS="vassal-normal">&nbsp;</TD>
@@ -266,11 +273,11 @@ sub make_bar {
     for my $url (@{$bar->vassal_urls($m)}) { # get the master's vassals
 	# $vassal_padding is used in all but the last cell, as specified
 	# by $padding.
-	my ($padding, $last) = ($vassal_padding);
+	my ($padding, $last) = ($self->vassal_padding);
 	my $label = $bar->vassal_label($url);
 	# get the first $depth + 1 elements of the url
-	my $vassal_base = $self->{depth} + 1;
-	my $trunc = ($url =~ /^((?:\/[^\/]*){$vassal_base}\/).*$/oi, $1);
+	my $vassal_base = $self->depth + 1;
+	my $trunc = ($url =~ /^((?:\/[^\/]*){$vassal_base}\/).*$/i, $1);
 	my $is_current = $current_url =~ /^$trunc/;
 	$padding = "" # stretch width, no padding
 	    if ($url eq @{$bar->vassal_urls($m)}[-1]); # if last item
@@ -315,7 +322,7 @@ sub new {
 	next unless my($url, $label) = /^(\S+)\s+(.+)/;
 	if ($url !~ /$p/i) { # url is not a child
 	    # the parent is the first $depth url elements
-	    $p = ($url =~ /^((?:\/[^\/]*){$depth}\/).*$/oi, $1);	    
+	    $p = ($url =~ /^((?:\/[^\/]*){$depth}\/).*$/i, $1);	    
 	    push @master_urls, $url; # keep the url in an ordered array
 	    $master_labels{$url} = $label; # keep its label in a hash
 	} else { 
@@ -697,7 +704,7 @@ well as on top of the page.
 
 =head1 AUTHOR
 
-Panagiotis Louridas <panos.louridas@investment-bank.gr>.
+Panos Louridas <louridas@acm.org>.
 
 =head1 SEE ALSO
 
@@ -716,7 +723,7 @@ to distribute this on CPAN.
 
 =head1 COPYRIGHT
 
-Copyright (c) 2002 Panagiotis Louridas <panos.louridas@investment-bank.gr>. 
+Copyright (c) 2002-2003 Panagiotis Louridas <louridas@acm.org>. 
 All rights reserved. This program is free software; you can redistribute it 
 and/or modify it under the same terms as Perl itself.
 
