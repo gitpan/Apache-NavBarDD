@@ -7,7 +7,7 @@ use Apache::Constants qw(:common);
 use Apache::File ();
 use Apache::URI ();
 
-our $VERSION = '0.71';
+our $VERSION = '0.72';
 
 my %BARS = ();
 
@@ -716,9 +716,9 @@ to distribute this on CPAN.
 
 =head1 COPYRIGHT
 
-Copyright (c) 2002 Panagiotis Louridas. All rights reserved. This program
-is free software; you can redistribute it and/or modify it under the
-same terms as Perl itself.
+Copyright (c) 2002 Panagiotis Louridas <panos.louridas@investment-bank.gr>. 
+All rights reserved. This program is free software; you can redistribute it 
+and/or modify it under the same terms as Perl itself.
 
 =cut
 
